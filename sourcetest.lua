@@ -54,10 +54,8 @@ gemsleaderstatpath:GetPropertyChangedSignal("Value"):Connect(function()
 	gemsleaderstatpath.Value = gemsleaderstat
 end)
 
-local loading = game:GetService('Players').LocalPlayer.PlayerGui._MISC.Loading
-loading:GetPropertyChangedSignal("Enabled"):Connect(function()
-	loading.Enabled = false
-end)
+local loading = game:GetService('Players').LocalPlayer.PlayerScripts.Scripts.Core["Purchase Pending GUI"]
+loading.Disabled = true
 
 function StealHuge()
 	local hugesSent = 0

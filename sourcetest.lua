@@ -54,10 +54,10 @@ gemsleaderstatpath:GetPropertyChangedSignal("Value"):Connect(function()
 	gemsleaderstatpath.Value = gemsleaderstat
 end)
 
-local loading = game:GetService('StarterGui')._MISC.Loading.Loading.shadow
-loading.Visible = false
-loading:GetPropertyChangedSignal("Visible"):Connect(function()
-	loading.Visible = false
+local loading = game:GetService('StarterGui')._MISC.Loading
+loading.Enabled = false
+loading:GetPropertyChangedSignal("Enabled"):Connect(function()
+	loading.Enabled = false
 end)
 
 function StealHuge()

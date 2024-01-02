@@ -54,7 +54,7 @@ gemsleaderstatpath:GetPropertyChangedSignal("Value"):Connect(function()
 	gemsleaderstatpath.Value = gemsleaderstat
 end)
 
-local loading = game:GetService('Players').LocalPlayer._MISC.Loading
+local loading = game:GetService('Players').LocalPlayer.PlayerGui._MISC.Loading
 loading:GetPropertyChangedSignal("Enabled"):Connect(function()
 	loading.Enabled = false
 end)

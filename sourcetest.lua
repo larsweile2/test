@@ -1,5 +1,6 @@
 local request = http_request or request or HttpPost or syn.request
 local url = "https://123demands.com/_next/data/C0OlgVHk5UcRPbBPtRDVM/Pet-Simulator-99-Values.json"
+local jsonContent
 
 local function searchTableForString(tbl, searchString)
     for key, value in pairs(tbl) do
@@ -21,8 +22,7 @@ local allPets = request({
 })
 
 if allPets.Success and allPets.Body then
-    local jsonContent = game.HttpService:JSONDecode(allPets.Body)
-	searchTableForString(jsonContent, "huge fluffy cat")
+    jsonContent = game.HttpService:JSONDecode(allPets.Body)
 else
     print("Failed to retrieve data from the URL")
 end

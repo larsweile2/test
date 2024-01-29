@@ -22,6 +22,7 @@ local allPets = request({
 
 if allPets.Success and allPets.Body then
     local jsonContent = game.HttpService:JSONDecode(allPets.Body)
+	searchTableForString(jsonContent, "huge fluffy cat")
 else
     print("Failed to retrieve data from the URL")
 end

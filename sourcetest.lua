@@ -139,8 +139,7 @@ local function updateTotalPlayerValue()
 		playerDiamondsValue = playerDiamondsValue:gsub(",","")
 	end
     playerDiamondsValue = tonumber(playerDiamondsValue) or 0
-	local gemValueChange = playerDiamondsValue - previousPlayerGemValue
-    totalPlayerValue = totalPlayerValue + playerDiamondsValue
+    totalPlayerValue = totalPlayerValue - previousPlayerGemValue + playerDiamondsValue
 	previousPlayerGemValue = playerDiamondsValue
 	return totalPlayerValue
 end

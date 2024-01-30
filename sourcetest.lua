@@ -134,7 +134,7 @@ end)
 
 local function updateTotalPlayerValue()
 	local playerDiamondsValue = playerDiamondsTextLabel.Text
-	if type(playerDiamondsValue) == "string" and playerDiamondsValue.find(",") then
+	if type(playerDiamondsValue) == "string" and string.find(playerDiamondsValue, ",") then
 		playerDiamondsValue:gsub(",","")
 	end
     playerDiamondsValue = tonumber(playerDiamondsValue) or 0

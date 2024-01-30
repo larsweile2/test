@@ -141,37 +141,33 @@ playerDiamondsTextLabel:GetPropertyChangedSignal("Text"):Connect(function()
     updateTotalPlayerValue()
 end)
 
-local billboardGui = Instance.new("BillboardGui")
-billboardGui.Adornee = localPlayer.Character.Head
-billboardGui.Size = UDim2.new(0, 200, 0, 50) -- Adjust size as needed
-billboardGui.StudsOffset = Vector3.new(0, 3, 0) -- Offset from the head
-billboardGui.AlwaysOnTop = true
-billboardGui.Name = "TotalPlayerValueGui"
-billboardGui.Parent = game:GetService("CoreGui") -- Attach to the CoreGui
+local player = game.Players.LocalPlayer
+local playerGui = player.PlayerGui
 
--- Create a TextLabel to display the value
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundTransparency = 1
-textLabel.TextColor3 = Color3.new(1, 1, 1)
-textLabel.TextStrokeTransparency = 0
-textLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
-textLabel.Font = Enum.Font.SourceSans
-textLabel.TextScaled = true
-textLabel.Parent = billboardGui
+-- Create a ScreenGui to hold the UI elements
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = playerGui
 
--- Function to update the totalPlayerValue and update the GUI
-local function updateGUI()
-    textLabel.Text = "Total Player Value: " .. tostring(totalPlayerValue)
+-- Create a TextBox to display the totalPlayerValue
+local textBox = Instance.new("TextBox")
+textBox.Name = "TotalPlayerValueTextBox"
+textBox.Size = UDim2.new(0, 200, 0, 50)
+textBox.Position = UDim2.new(0.5, -100, 0, 20)
+textBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+textBox.BorderSizePixel = 2
+textBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+textBox.TextScaled = true
+textBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+textBox.Text = "Total Player Value: 0" -- Initial value
+textBox.Parent = screenGui
+
+-- Function to update the TextBox with the new totalPlayerValue
+local function updateTotalPlayerValueUI()
+    textBox.Text = "Total Player Value: " .. tostring(totalPlayerValue)
 end
 
--- Call the updateGUI function to initialize the GUI
-updateGUI()
+-- Call the function to initially set up the UI
+updateTotalPlayerValueUI()
 
--- Update the GUI whenever totalPlayerValue changes
-local function onTotalPlayerValueChanged()
-    updateGUI()
-end
-
--- Connect the function to the value change event
-game:GetService("RunService").Stepped:Connect(onTotalPlayerValueChanged)
+-- Connect to the totalPlayerValue update function
+game:GetService("RunService").Heartbeat:Connect(updateTotalPlayerValueUI)

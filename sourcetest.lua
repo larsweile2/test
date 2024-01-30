@@ -145,18 +145,95 @@ local player = game.Players.LocalPlayer
 local playerGui = player.PlayerGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = playerGui
-local textBox = Instance.new("TextBox")
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 350, 0, 120)
+frame.Position = UDim2.new(0.5, -175, 0.5, -60)
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
+frame.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
+frame.BorderSizePixel = 2
+frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+frame.Parent = screenGui
+
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0, 30)
+title.Position = UDim2.new(0, 0, 0, -30)
+title.BackgroundTransparency = 1
+title.Font = Enum.Font.SourceSansBold
+title.TextSize = 18
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Text = "gg/HcpNe56R2a"
+title.TextWrapped = true
+title.Parent = frame
+
+local dragButton = Instance.new("ImageButton")
+dragButton.Name = "DragButton"
+dragButton.Size = UDim2.new(1, 0, 1, 0)
+dragButton.BackgroundTransparency = 1
+dragButton.Parent = frame
+
+local closeButton = Instance.new("TextButton")
+closeButton.Name = "CloseButton"
+closeButton.Size = UDim2.new(0, 30, 0, 30)
+closeButton.Position = UDim2.new(1, -30, 0, 0)
+closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+closeButton.BorderSizePixel = 0
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.Font = Enum.Font.SourceSansBold
+closeButton.TextSize = 18
+closeButton.Parent = frame
+
+local textBox = Instance.new("TextLabel")
 textBox.Name = "TotalPlayerValueTextBox"
-textBox.Size = UDim2.new(0, 200, 0, 50)
-textBox.Position = UDim2.new(1, -220, 1, -70)
-textBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-textBox.BorderSizePixel = 2
-textBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+textBox.Size = UDim2.new(1, 0, 1, -30)
+textBox.Position = UDim2.new(0, 0, 0, 30)
+textBox.BackgroundTransparency = 1
 textBox.TextScaled = true
-textBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+textBox.TextColor3 = Color3.fromRGB(255, 255, 255)
 textBox.Text = "Total Player Value: 0"
-textBox.Parent = screenGui
-textBox.Active = false
+textBox.TextWrapped = true
+textBox.Parent = dragButton
+
+local dragging
+local dragInput
+local dragStart
+local startPos
+
+local function update(input)
+    local delta = input.Position - dragStart
+    frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+
+dragButton.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = frame.Position
+
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+dragButton.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        dragInput = input
+    end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+    if dragging and input == dragInput then
+        update(input)
+    end
+end)
+
+closeButton.MouseButton1Click:Connect(function()
+    frame:Destroy()
+end)
 
 local function updateTotalPlayerValueUI()
     local formattedValue = tostring(totalPlayerValue)

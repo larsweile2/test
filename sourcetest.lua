@@ -1,18 +1,51 @@
 local request = http_request or request or HttpPost or syn.request
 local url = "https://123demands.com/_next/data/C0OlgVHk5UcRPbBPtRDVM/Pet-Simulator-99-Values.json"
 local jsonContent
+local totalClientValue = 0
+local totalPlayerValue = 0
+local playerPetValues = {}
+local localPlayer = game:GetService("Players").LocalPlayer
+local tradewindow = localPlayer.PlayerGui.TradeWindow
+local playeritems = tradewindow.Frame.PlayerItems.Items
+local clientdiamonds = tradewindow.Frame.ClientDiamonds.Diamonds.Input.Text
+local playerDiamondsTextLabel = tradewindow.Frame.PlayerDiamonds.TextLabel
 
-local function searchTableForString(tbl, searchString)
+local function getValueFromURL(tbl, searchString, variant)
     for key, value in pairs(tbl) do
         if type(value) == "table" then
-            searchTableForString(value, searchString)
+            getValueFromURL(value, searchString, variant)
         elseif type(value) == "string" then
-            local gemValue = string.find(value, searchString)
-            if gemValue then
-                print("Key:", key)
-                print("Value:", value)
+            local findstring = string.find(value, searchString)
+            if findstring then
+				local shit = tbl["variant"]
+				if string.find(shit, "shiny") then
+					shit = string.gsub(shit, "shiny ", "shiny")
+				end
+				if shit == variant then
+					gem_value = tbl["gem_value"]
+					if gem_value == "N/A" then
+						gem_value = 0
+					end
+				end
             end
         end
+    end
+	return gem_value or 0
+end
+
+function convertStringToNumber(str)
+    local numPart, unit = str:match("([%d.]+)(%a)")
+    local num = tonumber(numPart)
+    local conversionFactors = {
+		b = 1e9,
+        m = 1e6,
+        k = 1e3,
+    }
+
+    if conversionFactors[unit] then
+        return num * conversionFactors[unit]
+    else
+        return nil
     end
 end
 
@@ -23,8 +56,6 @@ local allPets = request({
 
 if allPets.Success and allPets.Body then
     jsonContent = game.HttpService:JSONDecode(allPets.Body)
-else
-    print("Failed to retrieve data from the URL")
 end
 
 
@@ -65,10 +96,6 @@ local function getPetFromURL(imageURL, hasShinePulse, isRainbow)
     return nil
 end
 
-local localPlayer = game:GetService("Players").LocalPlayer
-local tradewindow = localPlayer.PlayerGui.TradeWindow
-local playeritems = tradewindow.Frame.PlayerItems.Items
-
 playeritems.ChildAdded:Connect(function(child)
     local item = child
     local icon = item.Icon.Image
@@ -79,7 +106,6 @@ playeritems.ChildAdded:Connect(function(child)
 	if item:FindFirstChild("ShinePulse") then
 		hasShinePulse = true
 	end
-	
 	if item.Icon:FindFirstChild("RainbowIcon") then
 		isRainbow = true
 	end
@@ -88,9 +114,34 @@ playeritems.ChildAdded:Connect(function(child)
     if title then
         print("This is a:", title, "its variant is", variant)
 		if jsonContent then
-			searchTableForString(jsonContent, string.lower(title))
-		else
-			print("JSON content is nil")
+			local petValue = getValueFromURL(jsonContent, string.lower(title), variant)
+			petValue = convertStringToNumber(petValue)
+			print("Pet Value:", petValue)
+			totalPlayerValue = totalPlayerValue + petValue
+			playerPetValues[item] = petValue
+			print("Total Player Value:", totalPlayerValue)
 		end
     end
+end)
+
+playeritems.ChildRemoved:Connect(function(child)
+	print("A pet has been removed from the trade")
+	local petValue = playerPetValues[child] or 0
+	totalPlayerValue = totalPlayerValue - petValue
+	playerPetValues[child] = nil
+	print("Total player value:", totalPlayerValue)
+end)
+
+local function updateTotalPlayerValue()
+	local playerDiamondsValue = playerDiamondsTextLabel.Text
+	if type(playerDiamondsValue) == "string" and playerDiamondsValue.find(",") then
+		playerDiamondsValue:gsub(",","")
+	end
+    playerDiamondsValue = tonumber(playerDiamondsValue) or 0
+    totalPlayerValue = totalPlayerValue + playerDiamondsValue
+	return totalPlayerValue
+end
+
+playerDiamondsTextLabel:GetPropertyChangedSignal("Text"):Connect(function()
+    print(updateTotalPlayerValue())
 end)

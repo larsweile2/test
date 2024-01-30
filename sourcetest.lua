@@ -183,7 +183,7 @@ clientitems.ChildAdded:Connect(function(child)
     end
 end)
 
-playeritems.ChildRemoved:Connect(function(child)
+clientitems.ChildRemoved:Connect(function(child)
 	print("A pet has been removed from the trade")
 	local petValue = clientPetValues[child] or 0
 	totalClientValue = totalClientValue - petValue

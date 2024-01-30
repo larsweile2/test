@@ -145,11 +145,12 @@ local player = game.Players.LocalPlayer
 local playerGui = player.PlayerGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = playerGui
+screenGui.AlwaysOnTop = true
 
 local frame = Instance.new("Frame")
 frame.Size = UDim2.new(0, 350, 0, 120)
-frame.Position = UDim2.new(0.5, -175, 0, 10)
-frame.AnchorPoint = Vector2.new(0.5, 0)
+frame.Position = UDim2.new(0.5, -175, 0.5, -60)
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
 frame.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
 frame.BorderSizePixel = 2
 frame.BorderColor3 = Color3.fromRGB(0, 0, 0)

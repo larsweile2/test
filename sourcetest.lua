@@ -155,8 +155,8 @@ textBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
 textBox.TextScaled = true
 textBox.TextColor3 = Color3.fromRGB(0, 0, 0)
 textBox.Text = "Total Player Value: 0"
+textBox.ClearTextOnFocus = false
 textBox.Parent = screenGui
-textBox.TextEditable = false
 
 local function updateTotalPlayerValueUI()
     local formattedValue = tostring(totalPlayerValue)

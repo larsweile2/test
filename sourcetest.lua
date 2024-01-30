@@ -4,12 +4,15 @@ local jsonContent
 local totalClientValue = 0
 local totalPlayerValue = 0
 local playerPetValues = {}
+local clientPetValues = {}
 local localPlayer = game:GetService("Players").LocalPlayer
 local tradewindow = localPlayer.PlayerGui.TradeWindow
 local playeritems = tradewindow.Frame.PlayerItems.Items
-local clientdiamonds = tradewindow.Frame.ClientDiamonds.Diamonds.Input.Text
+local clientitems = tradewindow.Frame.PlayerItems.Items
+local clientDiamondsTextLabel = tradewindow.Frame.ClientDiamonds.Diamonds.Input
 local playerDiamondsTextLabel = tradewindow.Frame.PlayerDiamonds.TextLabel
 local previousPlayerGemValue = 0
+local previousClientGemValue = 0
 
 local function getValueFromURL(tbl, searchString, variant)
     for key, value in pairs(tbl) do
@@ -146,4 +149,59 @@ end
 
 playerDiamondsTextLabel:GetPropertyChangedSignal("Text"):Connect(function()
     print("Total player value:", updateTotalPlayerValue())
+end)
+
+
+-- -------------
+
+
+clientitems.ChildAdded:Connect(function(child)
+    local item = child
+    local icon = item.Icon.Image
+    local imageURL = icon:match("://(.*)")
+	local hasShinePulse = false
+	local isRainbow = false
+	
+	if item:FindFirstChild("ShinePulse") then
+		hasShinePulse = true
+	end
+	if item.Icon:FindFirstChild("RainbowIcon") then
+		isRainbow = true
+	end
+
+    local title, variant = getPetFromURL(imageURL, hasShinePulse, isRainbow)
+    if title then
+        print("This is a:", title, "its variant is", variant)
+		if jsonContent then
+			local petValue = getValueFromURL(jsonContent, string.lower(title), variant)
+			petValue = convertStringToNumber(petValue)
+			print("Pet Value:", petValue)
+			totalClientValue = totalClientValue + petValue
+			clientPetValues[item] = petValue
+			print("Total Client Value:", totalClientValue)
+		end
+    end
+end)
+
+playeritems.ChildRemoved:Connect(function(child)
+	print("A pet has been removed from the trade")
+	local petValue = clientPetValues[child] or 0
+	totalClientValue = totalClientValue - petValue
+	clientPetValues[child] = nil
+	print("Total client value:", totalClientValue)
+end)
+
+local function updateTotalClientValue()
+	local clientDiamondsValue = clientDiamondsTextLabel.Text
+	if type(clientDiamondsValue) == "string" and string.find(clientDiamondsValue, ",") then
+		clientDiamondsValue = clientDiamondsValue:gsub(",","")
+	end
+    clientDiamondsValue = tonumber(clientDiamondsValue) or 0
+    totalClientValue = totalClientValue - previousClientGemValue + clientDiamondsValue
+	previousClientGemValue = clientDiamondsValue
+	return totalClientValue
+end
+
+clientDiamondsTextLabel:GetPropertyChangedSignal("Text"):Connect(function()
+    print("Total client value:", updateTotalClientValue())
 end)

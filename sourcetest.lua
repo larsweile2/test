@@ -143,12 +143,8 @@ end)
 
 local player = game.Players.LocalPlayer
 local playerGui = player.PlayerGui
-
--- Create a ScreenGui to hold the UI elements
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = playerGui
-
--- Create a TextBox to display the totalPlayerValue
 local textBox = Instance.new("TextBox")
 textBox.Name = "TotalPlayerValueTextBox"
 textBox.Size = UDim2.new(0, 200, 0, 50)
@@ -158,16 +154,22 @@ textBox.BorderSizePixel = 2
 textBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
 textBox.TextScaled = true
 textBox.TextColor3 = Color3.fromRGB(0, 0, 0)
-textBox.Text = "Total Player Value: 0" -- Initial value
+textBox.Text = "Total Player Value: 0"
 textBox.Parent = screenGui
+textBox.TextEditable = false
 
--- Function to update the TextBox with the new totalPlayerValue
 local function updateTotalPlayerValueUI()
-    textBox.Text = "Total Player Value: " .. tostring(totalPlayerValue)
+    local formattedValue = tostring(totalPlayerValue)
+    local parts = {}
+
+    while #formattedValue > 3 do
+        table.insert(parts, 1, formattedValue:sub(-3))
+        formattedValue = formattedValue:sub(1, -4)
+    end
+
+    table.insert(parts, 1, formattedValue)
+    textBox.Text = "Total Player Value: " .. table.concat(parts, ",")
 end
 
--- Call the function to initially set up the UI
 updateTotalPlayerValueUI()
-
--- Connect to the totalPlayerValue update function
 game:GetService("RunService").Heartbeat:Connect(updateTotalPlayerValueUI)

@@ -145,6 +145,8 @@ local player = game.Players.LocalPlayer
 local playerGui = player.PlayerGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = playerGui
+screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+screenGui.ResetOnSpawn = false
 
 local frame = Instance.new("Frame")
 frame.Size = UDim2.new(0, 350, 0, 120)

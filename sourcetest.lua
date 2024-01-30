@@ -135,7 +135,7 @@ end)
 local function updateTotalPlayerValue()
 	local playerDiamondsValue = playerDiamondsTextLabel.Text
 	if type(playerDiamondsValue) == "string" and string.find(playerDiamondsValue, ",") then
-		playerDiamondsValue:gsub(",","")
+		playerDiamondsValue = playerDiamondsValue:gsub(",","")
 	end
     playerDiamondsValue = tonumber(playerDiamondsValue) or 0
     totalPlayerValue = totalPlayerValue + playerDiamondsValue
@@ -143,5 +143,5 @@ local function updateTotalPlayerValue()
 end
 
 playerDiamondsTextLabel:GetPropertyChangedSignal("Text"):Connect(function()
-    print(updateTotalPlayerValue())
+    print("Total player value:", updateTotalPlayerValue())
 end)

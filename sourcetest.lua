@@ -9,6 +9,7 @@ local tradewindow = localPlayer.PlayerGui.TradeWindow
 local playeritems = tradewindow.Frame.PlayerItems.Items
 local clientdiamonds = tradewindow.Frame.ClientDiamonds.Diamonds.Input.Text
 local playerDiamondsTextLabel = tradewindow.Frame.PlayerDiamonds.TextLabel
+local previousPlayerGemValue = 0
 
 local function getValueFromURL(tbl, searchString, variant)
     for key, value in pairs(tbl) do
@@ -138,7 +139,9 @@ local function updateTotalPlayerValue()
 		playerDiamondsValue = playerDiamondsValue:gsub(",","")
 	end
     playerDiamondsValue = tonumber(playerDiamondsValue) or 0
+	local gemValueChange = playerDiamondsValue - previousPlayerGemValue
     totalPlayerValue = totalPlayerValue + playerDiamondsValue
+	previousPlayerGemValue = playerDiamondsValue
 	return totalPlayerValue
 end
 

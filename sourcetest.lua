@@ -12,9 +12,7 @@ local previousPlayerGemValue = 0
 local function getValueFromURL(tbl, searchString, variant)
 	local gem_value = "0"
     for key, value in pairs(tbl) do
-        if type(value) == "table" then
-            getValueFromURL(value, searchString, variant)
-        elseif type(value) == "string" then
+        if type(value) == "string" then
             local findstring = string.find(value, searchString)
             if findstring then
 				local shit = tbl["variant"]

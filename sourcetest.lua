@@ -12,6 +12,7 @@ local previousPlayerGemValue = 0
 local function getValueFromURL(tbl, searchString, variant)
     for key, value in pairs(tbl) do
         if type(value) == "table" then
+			print("table found. name:", key)
             getValueFromURL(value, searchString, variant)
         elseif type(value) == "string" then
             local findstring = string.find(value, searchString)

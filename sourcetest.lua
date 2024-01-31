@@ -49,6 +49,18 @@ function convertStringToNumber(str)
     end
 end
 
+local function filterFields()
+	local filteredData = {}
+	for key, value in pairs(entry) do
+		if type(value) == "table" do
+			filteredEntry = filterFields(value)
+		elseif key == "variant" or key == "name" or key == "gem_value" then
+			filteredEntry[key] = value
+		end
+	end
+	return filteredEntry
+end
+
 local allPets = request({
     Url = url,
     Method = "GET"
@@ -56,21 +68,14 @@ local allPets = request({
 
 if allPets.Success and allPets.Body then
     jsonContent = game.HttpService:JSONDecode(allPets.Body)
-end
-
-if jsonContent and jsonContent.pageProps and jsonContent.pageProps.initialData then
-    local processedData = {}
-
-    for _, entry in ipairs(jsonContent.pageProps.initialData) do
-        local processedEntry = {
-            variant = entry.variant,
-            name = entry.name,
-            gem_value = entry.gem_value
-        }
-        table.insert(processedData, processedEntry)
-    end
-    -- Now processedData holds only the required fields for each entry
-    -- You can use processedData as per your requirements
+	if jsonContent.pageProps and jsonContent.pageProps.initialData then
+		local filteredData = {}
+		for _, entry in ipairs(jsonContent.pageProps.initialData) do
+			local filteredEntry = filterFields(entry)
+			table.insert(filteredData, filteredEntry)
+		end
+		jsonContent.pageProps.initialData = filteredData
+	end
 end
 
 local function getPetFromURL(imageURL, hasShinePulse, isRainbow)

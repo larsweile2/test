@@ -10,7 +10,6 @@ local playerDiamondsTextLabel = tradewindow.Frame.PlayerDiamonds.TextLabel
 local previousPlayerGemValue = 0
 
 local function getValueFromURL(tbl, searchString, variant)
-	local gem_value = 0
     for key, value in pairs(tbl) do
         if type(value) == "table" then
             getValueFromURL(value, searchString, variant)
@@ -30,7 +29,7 @@ local function getValueFromURL(tbl, searchString, variant)
             end
         end
     end
-	return gem_value
+	return gem_value or 0
 end
 
 function convertStringToNumber(str)

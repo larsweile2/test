@@ -45,7 +45,7 @@ function convertStringToNumber(str)
     if conversionFactors[unit] then
         return num * conversionFactors[unit]
     else
-        return nil
+        return 0
     end
 end
 

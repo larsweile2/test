@@ -10,9 +10,9 @@ local playerDiamondsTextLabel = tradewindow.Frame.PlayerDiamonds.TextLabel
 local previousPlayerGemValue = 0
 
 local function getValueFromURL(tbl, searchString, variant)
+	local gem_value = "0"
     for key, value in pairs(tbl) do
         if type(value) == "table" then
-			print("table found. name:", key)
             getValueFromURL(value, searchString, variant)
         elseif type(value) == "string" then
             local findstring = string.find(value, searchString)
@@ -22,7 +22,7 @@ local function getValueFromURL(tbl, searchString, variant)
 					shit = string.gsub(shit, "shiny ", "shiny")
 				end
 				if shit == variant then
-					local gem_value = tbl["gem_value"]
+					gem_value = tbl["gem_value"]
 					if gem_value == "N/A" then
 						gem_value = "0"
 					end

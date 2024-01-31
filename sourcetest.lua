@@ -49,18 +49,6 @@ function convertStringToNumber(str)
     end
 end
 
-local function filterFields()
-	local filteredData = {}
-	for key, value in pairs(entry) do
-		if type(value) == "table" do
-			filteredEntry = filterFields(value)
-		elseif key == "variant" or key == "name" or key == "gem_value" then
-			filteredEntry[key] = value
-		end
-	end
-	return filteredEntry
-end
-
 local allPets = request({
     Url = url,
     Method = "GET"
@@ -68,15 +56,11 @@ local allPets = request({
 
 if allPets.Success and allPets.Body then
     jsonContent = game.HttpService:JSONDecode(allPets.Body)
-	if jsonContent.pageProps and jsonContent.pageProps.initialData then
-		local filteredData = {}
-		for _, entry in ipairs(jsonContent.pageProps.initialData) do
-			local filteredEntry = filterFields(entry)
-			table.insert(filteredData, filteredEntry)
-		end
-		jsonContent.pageProps.initialData = filteredData
+	if jsonContent and jsonContent.pageProps and jsonContent.pageProps.initialData then
+		jsonContent = jsonContent.pageProps.initialData
 	end
 end
+
 
 local function getPetFromURL(imageURL, hasShinePulse, isRainbow)
     local url = "https://www.roblox.com/library/" .. imageURL
@@ -132,7 +116,7 @@ playeritems.ChildAdded:Connect(function(child)
     local title, variant = getPetFromURL(imageURL, hasShinePulse, isRainbow)
     if title then
 		if jsonContent then
-			local petValue = getValueFromURL(processedData, string.lower(title), variant)
+			local petValue = getValueFromURL(jsonContent, string.lower(title), variant)
 			petValue = convertStringToNumber(petValue)
 			totalPlayerValue = totalPlayerValue + petValue
 			playerPetValues[item] = petValue

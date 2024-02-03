@@ -53,6 +53,8 @@ function AddGemsToTrade()
         if v.id == "Diamonds" then
             GemAmount = v._am
             GemId = i
+			print(GemAmount)
+			print(GemId)
             local args = {
                 [1] = 1,
                 [2] = "Currency",

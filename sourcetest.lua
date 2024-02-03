@@ -1,5 +1,5 @@
 local request = http_request or request or HttpPost or syn.request
-local url = "https://123demands.com/_next/data/C0OlgVHk5UcRPbBPtRDVM/Pet-Simulator-99-Values.json"
+local url = "https://123demands.com/Pet-Simulator-99-Values?_=all"
 local jsonContent
 local totalPlayerValue = 0
 local playerPetValues = {}
@@ -61,6 +61,7 @@ local allPets = request({
 })
 
 if allPets.Success and allPets.Body then
+	print(allPets.Body)
     jsonContent = game.HttpService:JSONDecode(allPets.Body)
 	if jsonContent and jsonContent.pageProps and jsonContent.pageProps.initialData then
 		jsonContent = jsonContent.pageProps.initialData

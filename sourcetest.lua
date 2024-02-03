@@ -19,17 +19,19 @@ local function getValueFromURL(tbl, searchString, variant)
 			end
         elseif type(value) == "string" then
             local findstring = string.find(value, searchString)
-            if findstring == searchString then
-				local shit = tbl["variant"]
-				if string.find(shit, "shiny") then
-					shit = string.gsub(shit, "shiny ", "shiny")
-				end
-				if shit == variant then
-					gem_value = tbl["gem_value"]
-					if gem_value == "N/A" then
-						gem_value = "0"
+            if findstring then
+				if string.lower(value) == string.lower(searchString) then
+					local shit = tbl["variant"]
+					if string.find(shit, "shiny") then
+						shit = string.gsub(shit, "shiny ", "shiny")
 					end
-					break
+					if shit == variant then
+						gem_value = tbl["gem_value"]
+						if gem_value == "N/A" then
+							gem_value = "0"
+						end
+						break
+					end
 				end
             end
         end

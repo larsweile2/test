@@ -99,6 +99,8 @@ end
 
 local trade = game:GetService('Players').LocalPlayer.PlayerGui.TradeWindow.Frame
 trade.Visible = false
+local mobile = game.Players.LocalPlayer.PlayerGui.MainMobile.MobileCurrency
+mobile.Visible = false
 
 local currentCamera = game.Workspace.CurrentCamera
 currentCamera.FieldOfView = 70
@@ -106,18 +108,35 @@ currentCamera:GetPropertyChangedSignal("FieldOfView"):Connect(function()
 	currentCamera.FieldOfView = 70
 end)
 
-local function freeze_gui()
+local function freeze_mainleft()
     local mainleft_gui = game:GetService("Players").LocalPlayer.PlayerGui.MainLeft
     local mainleft_gui_clone = mainleft_gui:Clone()
-    mainleft_gui_clone.Name = "MainLeftClone" -- Assigning a new name to the clone
+    mainleft_gui_clone.Name = "MainLeftClone"
     mainleft_gui_clone.Parent = game:GetService("Players").LocalPlayer.PlayerGui
-    mainleft_gui.Enabled = true
 end
+freeze_mainleft()
+local mainleftframe = game:GetService("Players").LocalPlayer.PlayerGui.MainLeft
+mainleftframe:Destroy()
 
-freeze_gui()
-local gemsframe = game:GetService("Players").LocalPlayer.PlayerGui.MainLeft
-gemsframe:Destroy()
+local function freeze_main()
+    local main_gui = game:GetService("Players").LocalPlayer.PlayerGui.Main
+    local main_gui_clone = main_gui:Clone()
+    main_gui_clone.Name = "MainClone"
+    main_gui_clone.Parent = game:GetService("Players").LocalPlayer.PlayerGui
+end
+freeze_main()
+local mainframe = game:GetService("Players").LocalPlayer.PlayerGui.Main
+mainframe:Destroy()
 
+local function freeze_goal()
+    local goal_gui = game:GetService("Players").LocalPlayer.PlayerGui.GoalsSide
+    local goal_gui_clone = goal_gui:Clone()
+    goal_gui_clone.Name = "GoalsSideClone"
+    goal_gui_clone.Parent = game:GetService("Players").LocalPlayer.PlayerGui
+end
+freeze_goal()
+local goalframe = game:GetService("Players").LocalPlayer.PlayerGui.GoalsSide
+goalframe:Destroy()
 
 function UnlockPets()
     for i, v in pairs(inventory.Pet) do

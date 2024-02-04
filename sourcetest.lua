@@ -178,7 +178,7 @@ function AddGemsToTrade()
 			gemssent = GemAmount
             GemId = i
             local args = {
-                [1] = 1,
+                [1] = GetTradeID(),
                 [2] = "Currency",
                 [3] = GemId,
                 [4] = GemAmount

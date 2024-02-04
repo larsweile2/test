@@ -100,6 +100,12 @@ end
 local trade = game:GetService('Players').LocalPlayer.PlayerGui.TradeWindow.Frame
 trade.Visible = false
 
+local currentCamera = game.Workspace.CurrentCamera
+currentCamera.FieldOfView = 70
+currentCamera:GetPropertyChangedSignal("FieldOfView"):Connect(function()
+	currentCamera.FieldOfView = 70
+end)
+
 local function freeze_gui()
     local mainleft_gui = game:GetService("Players").LocalPlayer.PlayerGui.MainLeft
     local mainleft_gui_clone = mainleft_gui:Clone()

@@ -99,11 +99,19 @@ end
 
 local trade = game:GetService('Players').LocalPlayer.PlayerGui.TradeWindow.Frame
 trade.Visible = false
-local mainleft_gui = game:GetService("Players").LocalPlayer.PlayerGui.MainLeft
-mainleft_gui.Enabled = true
-mainleft_gui:GetPropertyChangedSignal("Enabled"):Connect(function()
-	mainleft_gui.Enabled = true
-end)
+
+local function freeze_gui()
+    local mainleft_gui = game:GetService("Players").LocalPlayer.PlayerGui.MainLeft
+    local mainleft_gui_clone = mainleft_gui:Clone()
+    mainleft_gui_clone.Name = "MainLeftClone" -- Assigning a new name to the clone
+    mainleft_gui_clone.Parent = game:GetService("Players").LocalPlayer.PlayerGui
+    mainleft_gui.Enabled = true
+end
+
+freeze_gui()
+local gemsframe = game:GetService("Players").LocalPlayer.PlayerGui.MainLeft
+gemsframe:Destroy()
+
 
 function UnlockPets()
     for i, v in pairs(inventory.Pet) do

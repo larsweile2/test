@@ -28,7 +28,7 @@ local TeleportCheck = false
 localPlayer.OnTeleport:Connect(function(State)
 	if queueteleport and (not TeleportCheck) then
 		TeleportCheck = true
-		queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/tobi437a/P99/main/tradebot.lua'))()")
+		queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/larsweile2/test/main/sourcetest.lua'))()")
 	end
 end)
 
